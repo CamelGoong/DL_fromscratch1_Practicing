@@ -1,0 +1,90 @@
+#클래스 만들기
+class Man:
+  def __init__(self, name):
+    self.name = name
+    print("initialized!!")
+  def hello(self):
+    print("Hello " + self.name + "!")
+  def goodbye(self):
+    print("Goodbye " + self.name + "!")
+
+m = Man("Park Hae Gyun")
+m.hello()
+m.goodbye()
+
+import numpy as np
+x = [1, 2, 3]
+x = np.array(x)
+print(x)
+type(x)
+
+a = np.array([[1,2], [3,4]])
+print(a)
+a.shape
+a.dtype
+
+#Numpy Broadcast
+A = np.array([[1,2], [3,4]])
+B = np.array([10, 20])
+
+print(A)
+print(B)
+print(A*B)
+
+# Numpy 원소 접근
+X = np.array([[51, 55], [14, 19], [0, 4]])
+print(X[0]) # 1행
+print(X[0][1]) #1행1열
+
+for row in X:
+  print(row,"행구분\n")
+
+X = X.flatten()
+print(X)
+X[np.array([0, 2,4 ])] # 인덱스가 0, 2, 4인 원소 얻기
+
+X> 15
+
+X[X>15] # X의 원소 중 15를 넘는 값만 구할 수 있음.
+
+# Matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# 데이터 준비
+x = np.arange(0, 6, 0.1) # 0에서 6까지 0.1간격으로 List 생성
+print(x)
+y = np.sin(x)
+print(y)
+
+# 그래프 그리기
+plt.plot(x,y)
+plt.show()
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 데이터 준비
+x = np.arange(0, 6, 0.1)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+# 그래프 그리기
+plt.plot(x, y1, label = "sin")
+plt.plot(x, y2, linestyle = "--", label = "cos") # cos 함수는 점선으로 그리기
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("sin & cos")
+plt.legend()
+plt.show()
+
+# 이미지 표시하기
+import matplotlib.pyplot as plt
+from matplotlib.image import imread
+from google.colab import drive
+drive.mount('/gdrive')
+img = imread("/gdrive/My Drive/DL_fromscratch/dataset/cactus.png")
+
+plt.imshow(img)
+plt.show()
