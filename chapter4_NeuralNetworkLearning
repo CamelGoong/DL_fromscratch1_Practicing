@@ -1,0 +1,37 @@
+import numpy as np
+
+# 오차제곱합 구현
+def sum_squares_error(y, t):
+  return 0.5 * np.sum((y-t)**2)
+
+# 정답은 2레이블
+t = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+
+# 2레이블일 확률이 가장 높다고 추정
+y = [0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]
+
+sum_squares_error(np.array(y), np.array(t))
+
+# 7레이블일 확률이 가장 높다고 추정
+y = [0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0]
+
+sum_squares_error(np.array(y), np.array(t))
+
+# 교차 엔트로피 오차 함수 구현
+import numpy as np
+
+def cross_entropy_error(y, t):
+  delta = 1e-7 # 아주 작은 값인 delta를 np.log함수에 넣어서, 마이너스 무한대가 되어서 계산이 불가능한 상황을 막기위함.
+
+  return -np.sum(t*np.log(y + delta))
+
+# 정답 레이블은 2로 고정
+t = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+
+# 예측한 레이블이 2인 경우
+y = [0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]
+print(cross_entropy_error(np.array(y), np.array(t)))
+
+# 예측한 레이블이 2가 아닌 경우
+y = [0.1, 0.05, 0.1, 0.0, 0.05, 0.1,0.0, 0.6, 0.0, 0.0]
+print(cross_entropy_error(np.array(y), np.array(t)))
