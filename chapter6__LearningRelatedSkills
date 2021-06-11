@@ -1,0 +1,78 @@
+# SGD 클래스 선언
+class SGD:
+  def __init__(self, lr = 0.01):
+    self.lr = lr
+  
+  def update(self, params, grads):
+    for key in params.keys():
+      params[key] -= self.lr * grads[key]
+     
+ # 모멘텀 모델 구현
+class Momentum:
+  def __init__(self, lr = 0.01, momentum = 0.9):
+    self.lr = lr
+    self.momentum = momentum
+    self.v = None
+  
+  def update(self, params, grads):
+    if self.v is None:
+      self.v = {}
+      for key, val in params.items():
+        self.v[key] = np.zeros_like(val)
+
+      for key in params.keys():
+        self.v[key] = self.momentum * self.v - self.lr * grads[key]
+        params[key] += self.v[key]
+
+# AdaGrad 구현
+class AdaGrad:
+  def __init__(self, lr = 0.01):
+    self.lr = lr
+    self.h = None
+
+  def update(self, params, grads):
+    if self.h is None:
+      self.h = {}
+      for key, val in params.items():
+        self.h[key] = np.zeros_like(val)
+        
+    for key in params.keys():
+      self.h[key] += grads[key] * grads[key]
+      params[key] -= self.lr * grads[key] / (np.sqrt(self.h[key] + 1e-7)) # 작은 수인 1e-7을 잊지않고 더해주는 것도 포인트!
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(x):
+  return 1 / (np.exp(-x)+ 1)
+
+# 가중치 초깃값 설정에 따른 활성화 값의 분포
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(x):
+  return 1 / (np.exp(-x)+ 1)
+
+x = np.random.randn(1000, 100)
+node_num = 100
+hidden_layer_size = 5
+activations = {}
+
+for i in range(hidden_layer_size):
+  if i != 0:
+    x = activations[i-1]
+  # w = np.random.randn(node_num, node_num) * # 가중치의 표준편차: 1로 가정
+  # w = np.random.randn(node_num, node_num) * 0.01 # 가중치의 표준편차: 0.01로 가정
+  node_num = 100 # 앞 층의 노드수(여기서는 100개로 통일되어 있음.)
+  w = np.random.randn(node_num, node_num)  / np.sqrt(node_num)
+  a = np.dot(x, w)
+  z = sigmoid(a)
+  activations[i] = z
+
+# 히스토그램 그리기
+for i, a in activations.items():
+  plt.subplot(1, len(activations), i + 1)
+  plt.title(str(i+1) + "-layer")
+  plt.hist(a.flatten(), 30, range = (0,1)) # 히스토그램 그리기
+plt.show()
+
